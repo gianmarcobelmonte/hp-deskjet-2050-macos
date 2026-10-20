@@ -1,7 +1,5 @@
 # HP Deskjet 2050 J510 driver for macOS
 
-*[Leggi in italiano](README.it.md)*
-
 A working macOS driver for the **HP Deskjet 2050 J510 series** (USB), a printer HP no longer supports on recent macOS releases such as Sequoia.
 
 It is a port of `hpcups`, the open source CUPS filter from HP's own Linux driver ([HPLIP](https://developers.hp.com/hp-linux-imaging-and-printing) 3.26.6). It is trimmed down to the code this printer needs and built against the CUPS that ships with macOS. It has no external dependencies, needs no proprietary HP plugin and installs no kernel extensions.
