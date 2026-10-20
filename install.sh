@@ -21,11 +21,14 @@ if [ ! -x build/hpcups ]; then
     exit 1
 fi
 
+# Files from a downloaded release carry the quarantine attribute, and macOS kills
+# quarantined binaries that aren't notarized: clear it from the driver and usbprobe.
+xattr -cr build
+
 # Filter: must be owned by root and not writable by others, or CUPS refuses to run it.
 # /usr/libexec/cups/filter is protected by SIP, so third-party filters live in /Library/Printers.
 install -d -o root -g wheel -m 755 "$PREFIX/Filters"
 install -o root -g wheel -m 755 build/hpcups "$FILTER"
-# A binary from a downloaded release carries the quarantine attribute; CUPS can't run it with that.
 xattr -c "$FILTER"
 
 # PPD pointing at the filter by absolute path.

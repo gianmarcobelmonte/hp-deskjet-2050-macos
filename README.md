@@ -134,6 +134,8 @@ You can check whether the printer answers over USB with:
 ./build/usbprobe
 ```
 
+If you downloaded the release and haven't run `install.sh` yet, macOS stops `usbprobe` with `Killed: 9` because the downloaded file is quarantined. Run `xattr -cr build` once in the driver folder, then try again.
+
 A healthy printer returns a long `GET_DEVICE_ID` string (starting with `MFG:HP;MDL:Deskjet 2050 J510 series;CMD:...`) and `GET_PORT_STATUS ... no-error=1`. An error `0xe00002ed` means the printer is not responding on USB; reconnect it as described above. `Printer interface 03f0:8711 not found` means macOS sees no working printer interface; reconnect the cable.
 
 ### The printer starts, then stops; power and cartridge lights blink
