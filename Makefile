@@ -4,7 +4,7 @@
 SRC = src/hpcups
 CXX = clang++
 CC  = clang
-ARCHS = -arch x86_64 -arch arm64
+ARCHS = -arch x86_64 -arch arm64 -mmacosx-version-min=11.0
 DEFS = -DHPCUPS_MINIMAL -DDISABLE_IMAGEPROCESSOR -DAPDK_LITTLE_ENDIAN \
        -DHAVE_STDINT_H -DCONFDIR=\"/etc/hp\" -DCUPS_FILTER_PATH=\"/usr/libexec/cups/filter\"
 CPPFLAGS = -I$(SRC) -Isrc/common $(DEFS)

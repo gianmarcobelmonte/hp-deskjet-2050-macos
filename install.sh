@@ -25,6 +25,8 @@ fi
 # /usr/libexec/cups/filter is protected by SIP, so third-party filters live in /Library/Printers.
 install -d -o root -g wheel -m 755 "$PREFIX/Filters"
 install -o root -g wheel -m 755 build/hpcups "$FILTER"
+# A binary from a downloaded release carries the quarantine attribute; CUPS can't run it with that.
+xattr -c "$FILTER"
 
 # PPD pointing at the filter by absolute path.
 install -d -o root -g wheel -m 755 "$(dirname "$PPD_DST")"

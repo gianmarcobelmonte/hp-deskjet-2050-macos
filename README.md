@@ -12,7 +12,7 @@ It is a port of `hpcups`, the open source CUPS filter from HP's own Linux driver
 |---|---|
 | Printer | HP Deskjet 2050 J510 series, connected over **USB** |
 | USB ID | `03f0:8711` |
-| macOS | Tested on macOS 15 Sequoia (15.7). It should also work on other recent releases |
+| macOS | macOS 11 Big Sur or later. Tested on macOS 15 Sequoia (15.7) |
 | Mac | Universal binary (Intel and Apple Silicon). Tested on an Intel Mac |
 
 Other printers are **not** supported. The installer looks specifically for this model.
@@ -29,41 +29,45 @@ Scanning is not included. This is a printing driver only.
 
 ## Installation
 
-### 1. Install the build tools
+### 1. Get the driver
 
-You need Apple's Command Line Tools. They are free and do not require the full Xcode. Open **Terminal** and run:
+Pick **one** of the two options.
 
-```sh
-xcode-select --install
-```
+#### Option A: download the prebuilt release (easiest)
 
-If they are already installed, you will see a message saying so. Continue to the next step.
+1. Go to the [latest release](https://github.com/gianmarcobelmonte/hp-deskjet-2050-macos/releases/latest) and download `hp-deskjet-2050-macos-<version>.zip`.
+2. Double-click the zip in Finder to extract it.
+3. Open **Terminal** and move into the extracted folder, for example:
+   ```sh
+   cd ~/Downloads/hp-deskjet-2050-macos-<version>
+   ```
 
-### 2. Download the project
+The release already contains the compiled driver (`build/hpcups`) and the diagnostic tool (`build/usbprobe`), so you don't need any build tools.
 
-```sh
-git clone https://github.com/gianmarcobelmonte/hp-deskjet-2050-macos.git
-cd hp-deskjet-2050-macos
-```
+#### Option B: build from source
 
-You can also use **Code → Download ZIP** on GitHub, unzip the file and `cd` into the folder.
-
-### 3. Build
-
-```sh
-make
-```
+1. Install Apple's Command Line Tools. They are free and do not require the full Xcode:
+   ```sh
+   xcode-select --install
+   ```
+   If they are already installed, you will see a message saying so.
+2. Download and build the project:
+   ```sh
+   git clone https://github.com/gianmarcobelmonte/hp-deskjet-2050-macos.git
+   cd hp-deskjet-2050-macos
+   make
+   ```
 
 This creates `build/hpcups` (the driver) and `build/usbprobe` (a diagnostic tool). Compiler warnings about `Mode9.cpp` come from HP's original code and are harmless.
 
-### 4. Connect the printer
+### 2. Connect the printer
 
 1. Turn the printer on and **wait until it is completely idle and silent**.
 2. Then connect the USB cable to the Mac. A USB‑C to USB‑A adapter is fine.
 
 Connecting the cable while the printer is still starting up can leave its USB interface unresponsive (see [Troubleshooting](#troubleshooting)).
 
-### 5. Install
+### 3. Install
 
 ```sh
 sudo ./install.sh
@@ -77,7 +81,7 @@ Enter your Mac password when asked. The script:
 
 If you created the printer manually in **System Settings → Printers & Scanners** under a different name, remove it there to avoid confusion. Then use the queue named **HP Deskjet 2050 J510 series**.
 
-### 6. Set A4 as the default paper size (optional)
+### 4. Set A4 as the default paper size (optional)
 
 The default paper size is Letter. Outside North America, set A4 for your user:
 
@@ -85,7 +89,7 @@ The default paper size is Letter. Outside North America, set A4 for your user:
 lpoptions -p HP_Deskjet_2050_J510_series -o PageSize=A4
 ```
 
-### 7. Print a test page
+### 5. Print a test page
 
 ```sh
 lp -d HP_Deskjet_2050_J510_series /usr/share/cups/data/testprint
@@ -95,13 +99,10 @@ From now on, choose **HP Deskjet 2050 J510 series** in the Print dialog of any a
 
 ## Updating
 
-Pull the new version, rebuild and run the installer again:
+Get the new version the same way you got the first one, then run the installer again from its folder:
 
-```sh
-git pull
-make
-sudo ./install.sh
-```
+- **Release:** download and extract the new zip, then run `sudo ./install.sh` from the new folder.
+- **Source:** run `git pull`, `make`, then `sudo ./install.sh`.
 
 ## Uninstalling
 

@@ -27,7 +27,7 @@ static Intf open_printer_interface(void)
     io_service_t svc;
     Intf found = NULL;
 
-    if (IOServiceGetMatchingServices(kIOMainPortDefault, match, &it) != KERN_SUCCESS)
+    if (IOServiceGetMatchingServices(MACH_PORT_NULL, match, &it) != KERN_SUCCESS)
         return NULL;
 
     while (!found && (svc = IOIteratorNext(it))) {
